@@ -13,6 +13,7 @@ import com.udemy.cursouml.domain.Cidade;
 import com.udemy.cursouml.domain.Cliente;
 import com.udemy.cursouml.domain.Endereco;
 import com.udemy.cursouml.domain.Estado;
+import com.udemy.cursouml.domain.ItemPedido;
 import com.udemy.cursouml.domain.Pagamento;
 import com.udemy.cursouml.domain.PagamentoComBoleto;
 import com.udemy.cursouml.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.udemy.cursouml.repositories.CidadeRepository;
 import com.udemy.cursouml.repositories.ClienteRepository;
 import com.udemy.cursouml.repositories.EnderecoRepository;
 import com.udemy.cursouml.repositories.EstadoRepository;
+import com.udemy.cursouml.repositories.ItemPedidoRepository;
 import com.udemy.cursouml.repositories.PagamentoRepository;
 import com.udemy.cursouml.repositories.PedidoRepository;
 import com.udemy.cursouml.repositories.ProdutoRepository;
@@ -48,6 +50,8 @@ public class CursomcApplication implements CommandLineRunner {
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 
 	public static void main(String[] args) {
@@ -113,6 +117,22 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1,pagto2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+
+		ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+		
+		
+		
 
 	}
 
